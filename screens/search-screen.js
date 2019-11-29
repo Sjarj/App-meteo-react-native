@@ -7,6 +7,7 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
+import { getCurrentWeatherByCity } from '../actions';
 
 const DEFAUT_COORD = {
   lat: 48.859268,
@@ -21,7 +22,7 @@ class SearchScreen extends React.Component {
   };
 
   submitSearch = () => {
-    console.log(this.state.search);
+    this.props.getCurrentWeatherByCity(this.state.search);
   };
 
   render() {
@@ -67,6 +68,8 @@ const mapStateToProps = state => ({
   currentWeather: state.weather.data
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getCurrentWeatherByCity
+};
 
-export default connect(mapStateToProps, undefined)(SearchScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchScreen);
