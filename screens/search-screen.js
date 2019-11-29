@@ -8,6 +8,7 @@ import {
 } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 import { getCurrentWeatherByCity } from '../actions';
+import WeatherCard from '../components/weather-card';
 
 const DEFAUT_COORD = {
   lat: 48.859268,
@@ -39,6 +40,7 @@ class SearchScreen extends React.Component {
           scrollEnabled={false}
           liteMode={true}
         />
+        <WeatherCard />
         <SearchBar
           lightTheme
           onChangeText={this.updateSearch}
