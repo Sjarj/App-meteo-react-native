@@ -26,7 +26,6 @@ class SearchScreen extends React.Component {
   };
 
   render() {
-    console.log(this.props.currentWeather);
     return (
       <View style={styles.container}>
         <MapView
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  currentWeather: state.weather.data
+  currentWeather: state.weather.currentWeather
 });
 
 const mapDispatchToProps = {
