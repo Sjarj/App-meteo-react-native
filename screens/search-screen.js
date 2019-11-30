@@ -32,8 +32,12 @@ class SearchScreen extends React.Component {
         <MapView
           style={{ flex: 1 }}
           region={{
-            latitude: DEFAUT_COORD.lat,
-            longitude: DEFAUT_COORD.lng,
+            latitude: this.props.currentWeather
+              ? this.props.currentWeather.coord.lat
+              : DEFAUT_COORD.lat,
+            longitude: this.props.currentWeather
+              ? this.props.currentWeather.coord.lon
+              : DEFAUT_COORD.lng,
             latitudeDelta: 0.2,
             longitudeDelta: 0.1
           }}
