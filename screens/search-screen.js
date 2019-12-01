@@ -44,7 +44,9 @@ class SearchScreen extends React.Component {
           scrollEnabled={false}
           liteMode={true}
         />
-        <WeatherCard />
+        {this.props.currentWeather && (
+          <WeatherCard currentWeather={this.props.currentWeather} />
+        )}
         <SearchBar
           lightTheme
           onChangeText={this.updateSearch}

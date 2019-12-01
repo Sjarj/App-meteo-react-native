@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Animated, PanResponder } from 'react-native';
+import { View, Animated, PanResponder, Text, Image } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { kelvinToCelsius } from '../services/temperature';
 
 const CARD_INITIAL_POSITION_Y = hp('80%');
 const CARD_INITIAL_POSITION_X = wp('5%');
@@ -11,6 +12,7 @@ const TRESHOLD_TO_TOP = hp('75%');
 const TRESHOLD_TO_BOTTOM = hp('70%');
 const CARD_OPEN_POSITION = hp('45%');
 const MAX_DRAG_ZONE_WHEN_OPEN = hp('65%');
+const ICON_URI = 'http://openweathermap.org/img/w/';
 
 class WeatherCard extends Component {
   state = {
@@ -86,12 +88,35 @@ class WeatherCard extends Component {
     };
   };
 
+  renderHeader = () => {
+    return (
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 30, marginTop: hp('1%') }}>
+          {this.props.currentWeather.name}
+        </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{ marginTop: hp('1%'), fontSize: 35 }}>
+            {kelvinToCelsius(this.props.currentWeather.main.temp) + 'C°'}
+          </Text>
+          <Image
+            style={{ height: 60, width: 60 }}
+            source={{
+              uri: `${ICON_URI}${this.props.currentWeather.weather[0].icon}.png`
+            }}
+          />
+        </View>
+      </View>
+    );
+  };
+
   render() {
     return this.state.panResponder ? (
       <Animated.View
         {...this.state.panResponder.panHandlers}
         style={this.getCardStyle()}
-      />
+      >
+        {this.renderHeader()}
+      </Animated.View>
     ) : (
       <View />
     );
