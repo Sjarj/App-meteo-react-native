@@ -8,6 +8,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { kelvinToCelsius } from '../services/temperature';
 
 export class AdvancedDetailScreen extends Component {
   componentDidMount() {
@@ -15,21 +16,33 @@ export class AdvancedDetailScreen extends Component {
     this.props.getForecastWeatherByCity(city);
   }
 
+  getTemperature = () => {
+    return this.props.forecastWeather.list.map(weather => {
+      return kelvinToCelsius(weather.main.temp);
+    });
+  };
+
+  getHumidity = () => {
+    return this.props.forecastWeather.list.map(weather => {
+      return kelvinToCelsius(weather.main.humidity);
+    });
+  };
+
+  getLabels = () => {
+    return this.props.forecastWeather.list.map((_, index) => {
+      let day = index / 8;
+      return index === 0 ? 't' : index % 8 === 0 ? 't+' + day + 'j' : '';
+    });
+  };
+
   renderChart = data => {
     return (
       <LineChart
         data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+          labels: this.getLabels(),
           datasets: [
             {
-              data: [
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100
-              ]
+              data
             }
           ]
         }}
@@ -62,11 +75,27 @@ export class AdvancedDetailScreen extends Component {
     );
   };
 
+  renderCharts = () => (
+    <View style={{ alignItems: 'center', alignContent: 'center' }}>
+      <Text style={{ fontSize: 30, paddingTop: hp('1%') }}>
+        {this.props.forecastWeather.city.name} 5 day forecast
+      </Text>
+      <Text style={{ marginTop: hp('2%'), fontSize: 20 }}>
+        Temperatures (C°)
+      </Text>
+      {this.renderChart(this.getTemperature())}
+      <Text style={{ fontSize: 30, paddingTop: hp('1%') }}>
+        {this.props.forecastWeather.city.name} 5 day forecast
+      </Text>
+      <Text style={{ marginTop: hp('2%'), fontSize: 20 }}>humidity (%)</Text>
+      {this.renderChart(this.getHumidity())}
+    </View>
+  );
   render() {
     return (
       <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
         {this.props.forecastWeather ? (
-          this.renderChart()
+          this.renderCharts()
         ) : (
           <Text>Loading...</Text>
         )}
@@ -74,7 +103,6 @@ export class AdvancedDetailScreen extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   forecastWeather: state.weather.forecastWeather
 });
