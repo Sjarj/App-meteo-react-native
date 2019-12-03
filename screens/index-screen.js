@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
+import { withNavigation } from 'react-navigation';
+import { facebookLogin } from '../actions';
 
 export class IndexScreen extends Component {
   componentDidMount() {
-    // pas de token , connexion facebook
-    // reussi emmener vers search
-    // si token aller vers search
+    AsyncStorage.getItem('fbToken').then(token => {
+      if (token) {
+        // si token aller vers search
+        this.goToSearch();
+      } else {
+        // pas de token , connexion facebook
+        this.props.facebookLogin(this.goToSearch);
+      }
+    });
   }
+
+  goToSearch = () => {
+    this.props.navigation.push('Search');
+  };
+
   render() {
     return <View></View>;
   }
@@ -15,6 +28,10 @@ export class IndexScreen extends Component {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  facebookLogin
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(IndexScreen);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(IndexScreen)
+);

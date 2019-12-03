@@ -23,7 +23,7 @@ const StackNavigator = createStackNavigator(
     Detail: AdvancedDetailScreen
   },
   {
-    initialRouteName: 'Index',
+    initialRouteName: 'Search',
     headerMode: 'none'
   }
 );
