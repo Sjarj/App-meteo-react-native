@@ -9,6 +9,7 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import { kelvinToCelsius } from '../services/temperature';
+import { Button } from 'react-native-elements';
 
 export class AdvancedDetailScreen extends Component {
   componentDidMount() {
@@ -75,6 +76,10 @@ export class AdvancedDetailScreen extends Component {
     );
   };
 
+  goBack = () => {
+    this.props.navigation.goBack();
+  };
+
   renderCharts = () => (
     <View style={{ alignItems: 'center', alignContent: 'center' }}>
       <Text style={{ fontSize: 30, paddingTop: hp('1%') }}>
@@ -89,6 +94,11 @@ export class AdvancedDetailScreen extends Component {
       </Text>
       <Text style={{ marginTop: hp('2%'), fontSize: 20 }}>humidity (%)</Text>
       {this.renderChart(this.getHumidity())}
+      <Button
+        onPress={this.goBack}
+        title='Back'
+        containerStyle={{ marginTop: hp('1%'), width: wp('90%') }}
+      />
     </View>
   );
   render() {
