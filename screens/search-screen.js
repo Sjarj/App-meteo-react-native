@@ -9,6 +9,7 @@ import {
 import { connect } from 'react-redux';
 import { getCurrentWeatherByCity } from '../actions';
 import WeatherCard from '../components/weather-card';
+import { subscribeToPushNotifications } from '../services/notifications';
 
 const DEFAUT_COORD = {
   lat: 48.859268,
@@ -17,6 +18,10 @@ const DEFAUT_COORD = {
 
 class SearchScreen extends React.Component {
   state = { search: '' };
+
+  componentDidMount() {
+    subscribeToPushNotifications();
+  }
 
   updateSearch = search => {
     this.setState({ search });
