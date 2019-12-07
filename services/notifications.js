@@ -1,5 +1,6 @@
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import axios from 'axios';
 
 export const subscribeToPushNotifications = () => {
   Permissions.getAsync(Permissions.NOTIFICATIONS).then(existingPermissions => {
@@ -9,13 +10,17 @@ export const subscribeToPushNotifications = () => {
           return;
         } else {
           Notifications.getExpoPushTokenAsync().then(token => {
-            console.log('le token', token);
+            axios.get('/?token=' + token).then(axiosResponse => {
+              console.log('La réponse', axiosResponse.data);
+            });
           });
         }
       });
     } else {
       Notifications.getExpoPushTokenAsync().then(token => {
-        console.log('le token', token);
+        axios.get('/?token=' + token).then(axiosResponse => {
+          console.log('La réponse', axiosResponse.data);
+        });
       });
     }
   });
