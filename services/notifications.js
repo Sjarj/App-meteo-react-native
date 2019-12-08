@@ -10,17 +10,23 @@ export const subscribeToPushNotifications = () => {
           return;
         } else {
           Notifications.getExpoPushTokenAsync().then(token => {
-            axios.get('/?token=' + token).then(axiosResponse => {
-              console.log('La réponse', axiosResponse.data);
-            });
+            axios
+              .get(
+                'https://notification-test-sjarj.herokuapp.com/?token=' + token
+              )
+              .then(axiosResponse => {
+                console.log('La réponse', axiosResponse.data);
+              });
           });
         }
       });
     } else {
       Notifications.getExpoPushTokenAsync().then(token => {
-        axios.get('/?token=' + token).then(axiosResponse => {
-          console.log('La réponse', axiosResponse.data);
-        });
+        axios
+          .get('https://notification-test-sjarj.herokuapp.com/?token=' + token)
+          .then(axiosResponse => {
+            console.log('La réponse', axiosResponse.data);
+          });
       });
     }
   });
