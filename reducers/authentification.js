@@ -9,7 +9,7 @@ export default (state = initialState, { type, payload }) => {
     case FACEBOOK_LOGIN_SUCCESS:
       return { token: payload };
 
-    case FACEBOOK_LOGIN_SUCCESS:
+    case FACEBOOK_LOGIN_ERROR:
       return { token: undefined };
 
     default:
